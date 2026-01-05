@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Availability;
 use Illuminate\Http\Request;
 
 class AvailabilityController extends Controller
@@ -36,24 +37,23 @@ class AvailabilityController extends Controller
         //
     }
 
-    public function edit(string $id)
+    public function edit(Availability $availability)
     {
         return view('availabilities.edit', compact('availability'));
     }
 
-    public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'date' => 'required|date',
-            'start_time' => 'required',
-            'end_time' => 'required',
-        ]);
+    public function update(Request $request, Availability $availability)
+{
+    $availability->update([
+        'date' => $request->date,
+        'start_time' => $request->start_time,
+        'end_time' => $request->end_time,
+    ]);
 
-        $availability->update($request->all());
+    return redirect()->route('availabilities.index')
+        ->with('success', 'Availability updated successfully');
+}
 
-        return redirect()->route('availabilities.index')
-                         ->with('success', 'Availability updated successfully.');
-    }
 
     public function destroy(string $id)
     {
