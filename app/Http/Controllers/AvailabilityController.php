@@ -43,7 +43,7 @@ class AvailabilityController extends Controller
     }
 
     public function update(Request $request, Availability $availability)
-{
+    {
     $availability->update([
         'date' => $request->date,
         'start_time' => $request->start_time,
@@ -52,14 +52,15 @@ class AvailabilityController extends Controller
 
     return redirect()->route('availabilities.index')
         ->with('success', 'Availability updated successfully');
-}
+    }
 
 
-    public function destroy(string $id)
+    public function destroy(Availability $availability)
     {
-        $availability->delete();
+    $availability->delete();
 
-        return redirect()->route('availabilities.index')
-                         ->with('success', 'Availability deleted successfully.');
+    return redirect()
+        ->route('availabilities.index')
+        ->with('success', 'Availability deleted successfully.');
     }
 }

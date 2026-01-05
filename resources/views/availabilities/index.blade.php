@@ -29,7 +29,12 @@
                 <form action="{{ route('availabilities.destroy', $availability) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    
+                    <button type="submit"
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('Are you sure you want to delete this availability?')">
+                        Delete
+                    </button>
                 </form>
             </td>
         </tr>
