@@ -6,69 +6,60 @@ use Illuminate\Http\Request;
 
 class AvailabilityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+       public function index()
     {
-        //
+        $availabilities = Availability::latest()->get();
+        return view('availabilities.index', compact('availabilities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('availabilities.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'week_start_date' => 'required|date|after_or_equal:today',
-            'slots.*.day_of_week' => 'required',
-            'slots.*.start_time' => 'required|date_format:H:i',
-            'slots.*.end_time' => 'required|after:slots.*.start_time',
+         $request->validate([
+            'date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required',
         ]);
+
+        Availability::create($request->all());
+        
+        return redirect()->route('availabilities.index')
+                         ->with('success', 'Availability created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        return view('availabilities.edit', compact('availability'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'week_start_date' => 'required|date|after_or_equal:today',
-            'slots.*.day_of_week' => 'required',
-            'slots.*.start_time' => 'required|date_format:H:i',
-            'slots.*.end_time' => 'required|after:slots.*.start_time',
+            'date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required',
         ]);
+
+        $availability->update($request->all());
+
+        return redirect()->route('availabilities.index')
+                         ->with('success', 'Availability updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $availability->delete();
+
+        return redirect()->route('availabilities.index')
+                         ->with('success', 'Availability deleted successfully.');
     }
 }
