@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
+@section('title', 'Availabilities')
+
 @section('content')
-<h1>Availabilities</h1>
+<div class="d-flex justify-content-between mb-3">
+    <h2>Your Availabilities</h2>
+    <a href="{{ route('availabilities.create') }}" class="btn btn-success">Add New</a>
+</div>
 
-@if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-@endif
-
-<a href="{{ route('availabilities.create') }}" class="btn btn-primary mb-3">Create New</a>
-
-<table class="table">
-    <thead>
+<table class="table table-bordered table-striped">
+    <thead class="table-primary">
         <tr>
+            <th>Name</th>
             <th>Date</th>
             <th>Start Time</th>
             <th>End Time</th>
@@ -19,27 +19,24 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($availabilities as $availability)
-        <tr>
-            <td>{{ $availability->date }}</td>
-            <td>{{ $availability->name }}</td>
-            <td>{{ $availability->start_time }}</td>
-            <td>{{ $availability->end_time }}</td>
-            <td>
-                <a href="{{ route('availabilities.edit', $availability) }}" class="btn btn-sm btn-warning">Edit</a>
-                <form action="{{ route('availabilities.destroy', $availability) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    
-                    <button type="submit"
-                        class="btn btn-danger btn-sm"
-                        onclick="return confirm('Are you sure you want to delete this availability?')">
-                        Delete
-                    </button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
+        @forelse($availabilities as $availability)
+            <tr>
+                <td>{{ $availability->name }}</td>
+                <td>{{ $availability->date }}</td>
+                <td>{{ $availability->start_time }}</td>
+                <td>{{ $availability->end_time }}</td>
+                <td>
+                    <a href="{{ route('availabilities.edit', $availability->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="{{ route('availabilities.destroy', $availability->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this entry?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @empty
+            <tr><td colspan="5" class="text-center">No availabilities found.</td></tr>
+        @endforelse
     </tbody>
 </table>
 @endsection

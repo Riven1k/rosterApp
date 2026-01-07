@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Home')
+
 @section('content')
 <div class="container mt-5">
     <h1>Roster App</h1>
@@ -13,10 +15,8 @@
 
         </div>
 
-        <a href="{{ route('availabilities.index') }}">View Availabilities</a>
-        <a href="{{ route('availabilities.create') }}">Create Availability</a>
-
-
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('availabilities.index') }}'">View Availabilities</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('availabilities.create') }}'">Create Availability</button>
         <button class="btn btn-primary">Enter</button>
         <form method="POST" action="{{ route('fake.logout') }}">
             @csrf
