@@ -9,7 +9,7 @@ class Availability extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date', 'start_time', 'end_time'];
+    protected $fillable = ['name', 'date', 'start_time', 'end_time', 'user_id'];
     
     public function user()
     {

@@ -6,6 +6,10 @@
 <form method="POST" action="{{ route('availabilities.store') }}">
     @csrf
     <div class="mb-3">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="Name">
+    </div>
+    <div class="mb-3">
         <label>Date</label>
         <input type="date" name="date" class="form-control" value="{{ old('date') }}">
     </div>

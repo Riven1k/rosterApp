@@ -22,6 +22,7 @@
         @foreach($availabilities as $availability)
         <tr>
             <td>{{ $availability->date }}</td>
+            <td>{{ $availability->name }}</td>
             <td>{{ $availability->start_time }}</td>
             <td>{{ $availability->end_time }}</td>
             <td>
