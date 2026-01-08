@@ -4,12 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Availability;
 use Illuminate\Http\Request;
+use App\Services\HolidayApi;
 
 class AvailabilityController extends Controller
 {
+    protected $holidays;
+
+    public function __construct(HolidayApi $holidays)
+    {
+        if (!session()->has('name')) {
+            abort(403, 'Please enter your name first.');
+        }
+        
+        $this->holidays = $holidays;
+    }
+
     public function index()
     {
         $availabilities = Availability::all();
+
+        foreach ($availabilities as $availability) {
+            $availability->holiday = $this->holidays->isHoliday($availability->date);
+        }
+
         return view('availabilities.index', compact('availabilities'));
     }
 
@@ -70,12 +87,4 @@ class AvailabilityController extends Controller
             ->route('availabilities.index')
             ->with('success', 'Availability deleted successfully.');
     }
-
-    public function __construct()
-    {
-        if (!session()->has('name')) {
-            abort(403, 'Please enter your name first.');
-        }
-    }
-
 }

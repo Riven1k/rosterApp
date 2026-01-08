@@ -13,17 +13,24 @@
         <tr>
             <th>Name</th>
             <th>Date</th>
-            <th>Start Time</th>
-            <th>End Time</th>
+            <th>Time</th>
+            <th>Holiday</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @forelse($availabilities as $availability)
-            <tr>
+            <tr  @if($availability->holiday) class="table-warning" @endif>
                 <td>{{ $availability->name }}</td>
                 <td>{{ \Carbon\Carbon::parse($availability->date)->format('D, d M') }}</td>                
                 <td>{{ $availability->start_time }} - {{ $availability->end_time }}</td>
+                <td>
+                    @if($availability->holiday)
+                        <span class="badge bg-danger text-dark">{{ $availability->holiday }}</span>
+                    @else
+                        <span class="badge bg-secondary">Regular Day</span>
+                    @endif
+                </td>
                 <td class="text-end">
                     <a href="{{ route('availabilities.edit', $availability->id) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('availabilities.destroy', $availability->id) }}" method="POST" style="display:inline-block;">
