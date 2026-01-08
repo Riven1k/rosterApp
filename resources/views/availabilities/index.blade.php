@@ -22,10 +22,9 @@
         @forelse($availabilities as $availability)
             <tr>
                 <td>{{ $availability->name }}</td>
-                <td>{{ $availability->date }}</td>
-                <td>{{ $availability->start_time }}</td>
-                <td>{{ $availability->end_time }}</td>
-                <td>
+                <td>{{ \Carbon\Carbon::parse($availability->date)->format('D, d M') }}</td>                
+                <td>{{ $availability->start_time }} - {{ $availability->end_time }}</td>
+                <td class="text-end">
                     <a href="{{ route('availabilities.edit', $availability->id) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('availabilities.destroy', $availability->id) }}" method="POST" style="display:inline-block;">
                         @csrf
@@ -35,7 +34,9 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="5" class="text-center">No availabilities found.</td></tr>
+            <tr>
+                <td colspan="5" class="text-center text-muted py-4">No availabilities found.</td>
+            </tr>
         @endforelse
     </tbody>
 </table>

@@ -32,7 +32,7 @@ class AvailabilityController extends Controller
             'date' => $request->date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'user_id' => null,
+            'user_id' => session('user_id'),
         ]);
 
         return redirect()->route('availabilities.index');
