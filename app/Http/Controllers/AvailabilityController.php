@@ -19,9 +19,20 @@ class AvailabilityController extends Controller
         $this->holidays = $holidays;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $availabilities = Availability::all();
+        $query = Availability::query();
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%'.$request->search.'%');
+        }
+
+        if ($request->filled('sort')) {
+            $dir = $request->input('direction', 'asc');
+            $query->orderBy($request->sort, $dir);
+        }
+
+        $availabilities = $query->get();
 
         foreach ($availabilities as $availability) {
             $availability->holiday = $this->holidays->isHoliday($availability->date);
@@ -29,6 +40,7 @@ class AvailabilityController extends Controller
 
         return view('availabilities.index', compact('availabilities'));
     }
+
 
     public function create()
     {

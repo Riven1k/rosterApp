@@ -8,6 +8,35 @@
     <a href="{{ route('availabilities.create') }}" class="btn btn-success">Add New</a>
 </div>
 
+<form method="GET" class="row g-2 mb-4">
+
+    <div class="col-md-4">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name..." class="form-control">
+    </div>
+
+    <div class="col-md-3">
+        <select name="sort" class="form-select">
+            <option value="">Sort By...</option>
+            <option value="date" {{ request('sort')=='date' ? 'selected':'' }}>Date</option>
+            <option value="start_time" {{ request('sort')=='start_time' ? 'selected':'' }}>Start Time</option>
+            <option value="end_time" {{ request('sort')=='end_time' ? 'selected':'' }}>End Time</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select name="direction" class="form-select">
+            <option value="asc" {{ request('direction')=='asc' ? 'selected':'' }}>Ascending</option>
+            <option value="desc" {{ request('direction')=='desc' ? 'selected':'' }}>Descending</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-100">Apply</button>
+        <a href="{{ route('availabilities.index') }}" class="btn btn-secondary w-100">Reset</a>
+    </div>
+
+</form>
+
 <table class="table table-bordered table-striped">
     <thead class="table-primary">
         <tr>
