@@ -14,6 +14,8 @@ Route::get('/home', function () {
     return view('home');
 });
 
+//fake login
+
 Route::post('/login', function (Request $request) {
     $name = trim($request->input('name'));
     session(['name' => $name]);
@@ -45,11 +47,14 @@ Route::post('/login', function (Request $request) {
     return redirect('/home');
 })->name('fake.login');
 
+//profile page
 
 Route::get('/profile', function () {
     $employee = Employee::where('user_id', session('user_id'))->first();
     return view('profile', compact('employee'));
 })->name('profile');
+
+//updating profile
 
 Route::post('/profile', function (Request $request) {
     $employee = Employee::where('user_id', session('user_id'))->first();
@@ -62,9 +67,13 @@ Route::post('/profile', function (Request $request) {
     return redirect()->route('profile')->with('success', 'Profile updated!');
 });
 
+//logout
+
 Route::post('/logout', function () {
     session()->forget(['user_id', 'name']);
     return redirect('/');
 })->name('fake.logout');
+
+//other routes
 
 Route::resource('availabilities', AvailabilityController::class);

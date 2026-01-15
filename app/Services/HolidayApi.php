@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Cache;
 
 class HolidayApi
 {
+
+    // how the holiday api works
+
     public function isHoliday($date)
     {
         $year = substr($date, 0, 4);

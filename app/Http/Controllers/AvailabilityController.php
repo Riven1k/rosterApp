@@ -8,6 +8,9 @@ use App\Services\HolidayApi;
 
 class AvailabilityController extends Controller
 {
+
+    // holiday API
+
     protected $holidays;
 
     public function __construct(HolidayApi $holidays)
@@ -18,6 +21,8 @@ class AvailabilityController extends Controller
         
         $this->holidays = $holidays;
     }
+
+    //index page
 
     public function index(Request $request)
     {
@@ -46,6 +51,8 @@ class AvailabilityController extends Controller
     {
         return view('availabilities.create');
     }
+    
+    // storing data
 
     public function store(Request $request)    
     {
@@ -67,15 +74,12 @@ class AvailabilityController extends Controller
         return redirect()->route('availabilities.index');
     }
 
-    public function show(string $id)
-    {
-        
-    }
-
     public function edit(Availability $availability)
     {
         return view('availabilities.edit', compact('availability'));
     }
+
+    // update exiting field
 
     public function update(Request $request, Availability $availability)
     {
@@ -89,6 +93,7 @@ class AvailabilityController extends Controller
             ->with('success', 'Availability updated successfully');
     }
 
+    // delete
 
     public function destroy(Availability $availability)
     {
